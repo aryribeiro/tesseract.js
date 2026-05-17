@@ -1,10 +1,14 @@
 export const TIMEOUT = 60000;
 export const IMAGE_PATH = 'tests/assets/images';
 export const IS_BROWSER = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+export const Tesseract = IS_BROWSER
+  ? window.Tesseract
+  : (await import('../src/index.js')).default;
+export const fs = IS_BROWSER ? null : (await import('node:fs')).default;
 export const OPTIONS = {
-  cachePath: './tests/assets/traineddata',
-  corePath: '../node_modules/tesseract.js-core',
-  ...(IS_BROWSER ? { workerPath: '../dist/worker.min.js' } : {}),
+  cachePath: IS_BROWSER ? '/tests/assets/traineddata' : './tests/assets/traineddata',
+  corePath: IS_BROWSER ? '/node_modules/tesseract.js-core' : '../node_modules/tesseract.js-core',
+  ...(IS_BROWSER ? { workerPath: '/dist/worker.min.js' } : {}),
 };
 export const SIMPLE_TEXT = 'Tesseract.js\n';
 export const SIMPLE_TEXT_LEGACY = 'Tesseractjs\n';
